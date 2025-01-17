@@ -1,9 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 gradlePlugin {
-    website = "https://github.com/zenhelix/gradle-magic-wands"
-    vcsUrl = "https://github.com/zenhelix/gradle-magic-wands.git"
-
     plugins {
         create("gradle-wrapper.convention") {
             implementationClass = "io.github.zenhelix.gradle.convention.GradleWrapperConventionPlugin"

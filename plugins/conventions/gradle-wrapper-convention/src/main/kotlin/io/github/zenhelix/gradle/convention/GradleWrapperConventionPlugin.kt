@@ -1,8 +1,6 @@
 package io.github.zenhelix.gradle.convention
 
-import io.github.zenhelix.gradle.convention.ExtraGradleWrapperExtension.Companion.DEFAULT_ENABLED_EXTRA_WRAPPER
-import io.github.zenhelix.gradle.convention.ExtraGradleWrapperExtension.Companion.EXTENSION_NAME
-import io.github.zenhelix.gradle.convention.ExtraGradleWrapperExtension.Companion.GRADLE_WRAPPER_DIST_URL
+import io.github.zenhelix.gradle.convention.ExtraGradleWrapperExtension.Companion.EXTRA_GRADLE_WRAPPER_EXTENSION_NAME
 import io.github.zenhelix.gradle.convention.utils.ManifestUtils
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -35,7 +33,7 @@ public class GradleWrapperConventionPlugin : Plugin<Project> {
             return
         }
 
-        val extraGradleWrapperExtension = rootProject.extensions.create<ExtraGradleWrapperExtension>(EXTENSION_NAME)
+        val extraGradleWrapperExtension = rootProject.extensions.create<ExtraGradleWrapperExtension>(EXTRA_GRADLE_WRAPPER_EXTENSION_NAME)
 
         var defaultVersion: String = GradleVersion.current().version
         rootProject.tasks.named<Wrapper>("wrapper") {
@@ -44,8 +42,8 @@ public class GradleWrapperConventionPlugin : Plugin<Project> {
         }
 
         rootProject.afterEvaluate {
-            val baseUrl = extraGradleWrapperExtension.baseRepositoryUrl.getOrElse(GRADLE_WRAPPER_DIST_URL).let { URI.create(it) }
-            val enabled = extraGradleWrapperExtension.enabled.getOrElse(DEFAULT_ENABLED_EXTRA_WRAPPER)
+            val baseUrl = extraGradleWrapperExtension.baseUrl.get().let { URI.create(it) }
+            val enabled = extraGradleWrapperExtension.enabled.get()
             if (enabled.not()) {
                 tasks.withType<Wrapper>().configureEach {
                     gradleVersion = defaultVersion

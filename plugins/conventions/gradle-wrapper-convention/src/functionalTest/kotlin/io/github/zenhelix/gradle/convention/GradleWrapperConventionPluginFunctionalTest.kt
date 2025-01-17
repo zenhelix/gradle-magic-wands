@@ -74,8 +74,8 @@ class GradleWrapperConventionPluginFunctionalTest {
         rootBuildFile.writeText(
             """
             plugins { id("$GRADLE_WRAPPER_CONVENTION_PLUGIN_ID") }
-            extraGradleWrapper {
-                baseRepositoryUrl.set("${testProjectDir.toURI().toURL()}")
+            gradleWrapperExt {
+                baseUrl = "${testProjectDir.toURI().toURL()}"
             }
             """
         )
@@ -146,8 +146,8 @@ class GradleWrapperConventionPluginFunctionalTest {
             tasks.wrapper {
                 validateDistributionUrl.set(false)
             }
-            extraGradleWrapper {
-                enabled.set(false)
+            gradleWrapperExt {
+                enabled = false
             }
             """
         )

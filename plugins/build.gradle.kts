@@ -134,4 +134,10 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
         useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
         sign(publishing.publications)
     }
+
+    gradlePlugin {
+        website = "https://github.com/zenhelix/gradle-magic-wands"
+        vcsUrl = "https://github.com/zenhelix/gradle-magic-wands.git"
+    }
+
 }
