@@ -4,7 +4,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "gradle-magic-wands"
 
-includeBuild("platforms")
 includeBuild("common")
 includeBuild("plugins")
 includeBuild("examples")

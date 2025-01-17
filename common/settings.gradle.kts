@@ -9,6 +9,13 @@ dependencyResolutionManagement {
         mavenCentral()
         mavenLocal()
     }
+
+    val pluginDevVersion: String by settings
+    versionCatalogs {
+        create("pluginsDevPlatform") {
+            from("io.github.zenhelix:gradle-plugins-dev-toml:$pluginDevVersion")
+        }
+    }
 }
 
 pluginManagement {
@@ -17,3 +24,7 @@ pluginManagement {
         mavenLocal()
     }
 }
+
+include("gradle-test-common")
+include("gradle-assertions")
+include("gradle-utils")
