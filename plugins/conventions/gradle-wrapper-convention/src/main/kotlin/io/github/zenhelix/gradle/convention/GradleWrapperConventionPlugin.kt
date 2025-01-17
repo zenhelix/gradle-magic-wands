@@ -22,7 +22,7 @@ public class GradleWrapperConventionPlugin : Plugin<Project> {
         /**
          * @see org.gradle.util.internal.DistributionLocator.SERVICES_GRADLE_BASE_URL_PROPERTY
          */
-        public const val GRADLE_BASE_URL_PROPERTY_NAME: String = "org.gradle.internal.services.base.url"
+        private const val GRADLE_BASE_URL_PROPERTY_NAME: String = "org.gradle.internal.services.base.url"
         private const val FAKE_VALUE_VERSION = "42.666"
     }
 
