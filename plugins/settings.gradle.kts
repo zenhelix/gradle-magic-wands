@@ -7,6 +7,8 @@ rootProject.name = "plugins"
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
+        gradlePluginPortal()
+        google()
         mavenLocal()
     }
 
