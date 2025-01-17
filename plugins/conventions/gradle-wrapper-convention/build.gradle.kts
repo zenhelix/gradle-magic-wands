@@ -7,7 +7,7 @@ gradlePlugin {
             id = "io.github.zenhelix.gradle-wrapper.convention"
             displayName = "Gradle plugin streamlining gradle-wrapper usage"
             description = "A Gradle plugin that simplifies and enhances the use of gradle-wrapper by automating tasks and configurations"
-            tags.set(listOf("gradle-wrapper", "wrapper", "build-tools", "configuration", "gradle-tools"))
+            tags = listOf("gradle-wrapper", "wrapper", "build-tools", "configuration", "gradle-tools")
         }
     }
 }
