@@ -21,6 +21,7 @@ public open class BaseJavaCompilationConventionPlugin(private val targetVersion:
         private const val KOTLIN_MULTIPLATFORM_PLUGIN_NAME = "org.jetbrains.kotlin.multiplatform"
         private const val ANDROID_LIBRARY_PLUGIN_NAME = "com.android.library"
         private const val ANDROID_APPLICATION_PLUGIN_NAME = "com.android.application"
+        private const val JAVA_PLUGIN_NAME = "java"
     }
 
     override fun apply(target: Project) {
@@ -52,7 +53,7 @@ public open class BaseJavaCompilationConventionPlugin(private val targetVersion:
                 return@afterEvaluate
             }
 
-            pluginManager.withPlugin("java") {
+            pluginManager.withPlugin(JAVA_PLUGIN_NAME) {
                 extensions.configure<JavaPluginExtension> {
                     sourceCompatibility = targetVersion
                     targetCompatibility = targetVersion
