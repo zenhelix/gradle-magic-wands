@@ -72,7 +72,7 @@ workflow(
         uses(name = "Gradle Wrapper Validation", action = ActionsWrapperValidation())
         run(
             name = "Check",
-            command = "./gradlew check"
+            command = "./gradlew :plugins:check"
         )
         val token = uses(
             name = "Get Token",

@@ -14,6 +14,8 @@
 import Environment.GITHUB_TOKEN_ENV
 import Environment.GRADLE_PUBLISH_KEY_ENV
 import Environment.GRADLE_PUBLISH_SECRET_ENV
+import Environment.REPO_PASSWORD_ENV
+import Environment.REPO_USERNAME_ENV
 import Environment.SIGNING_KEY_ENV
 import Environment.SIGNING_KEY_ID_ENV
 import Environment.SIGNING_PASSWORD_ENV
@@ -24,6 +26,8 @@ import Secrets.MAVEN_SONATYPE_SIGNING_KEY_ASCII_ARMORED
 import Secrets.MAVEN_SONATYPE_SIGNING_KEY_ID
 import Secrets.MAVEN_SONATYPE_SIGNING_PASSWORD
 import Secrets.MAVEN_SONATYPE_SIGNING_PUB_KEY_ASCII_ARMORED
+import Secrets.MAVEN_SONATYPE_TOKEN
+import Secrets.MAVEN_SONATYPE_USERNAME
 import io.github.typesafegithub.workflows.actions.actions.Checkout
 import io.github.typesafegithub.workflows.actions.actions.Checkout.FetchDepth
 import io.github.typesafegithub.workflows.actions.actions.SetupJava
@@ -46,6 +50,9 @@ object Secrets {
     val SecretsContext.GRADLE_PUBLISH_KEY by SecretsContext.propertyToExprPath
     val SecretsContext.GRADLE_PUBLISH_SECRET by SecretsContext.propertyToExprPath
 
+    val SecretsContext.MAVEN_SONATYPE_USERNAME by SecretsContext.propertyToExprPath
+    val SecretsContext.MAVEN_SONATYPE_TOKEN by SecretsContext.propertyToExprPath
+
     val SecretsContext.MAVEN_SONATYPE_SIGNING_KEY_ID by SecretsContext.propertyToExprPath
     val SecretsContext.MAVEN_SONATYPE_SIGNING_PUB_KEY_ASCII_ARMORED by SecretsContext.propertyToExprPath
     val SecretsContext.MAVEN_SONATYPE_SIGNING_KEY_ASCII_ARMORED by SecretsContext.propertyToExprPath
@@ -57,6 +64,9 @@ object Environment {
 
     const val GRADLE_PUBLISH_KEY_ENV = "GRADLE_PUBLISH_KEY"
     const val GRADLE_PUBLISH_SECRET_ENV = "GRADLE_PUBLISH_SECRET"
+
+    const val REPO_USERNAME_ENV = "MAVEN_SONATYPE_USERNAME"
+    const val REPO_PASSWORD_ENV = "MAVEN_SONATYPE_TOKEN"
 
     const val SIGNING_KEY_ID_ENV = "ORG_GRADLE_PROJECT_signingKeyId"
     const val SIGNING_PUB_KEY_ENV = "ORG_GRADLE_PROJECT_signingPublicKey"
@@ -88,18 +98,20 @@ workflow(
             env = mapOf(GITHUB_TOKEN_ENV to expr { secrets.GITHUB_TOKEN }),
         )
         uses(name = "Set up Java", action = SetupJava(javaVersion = "17", distribution = Temurin))
-//        run(
-//            name = "Publish",
-//            command = "./gradlew publishPlugins -Pversion='${expr { tag }}'",
-//            env = mapOf(
-//                GRADLE_PUBLISH_KEY_ENV to expr { secrets.GRADLE_PUBLISH_KEY },
-//                GRADLE_PUBLISH_SECRET_ENV to expr { secrets.GRADLE_PUBLISH_SECRET },
-//                SIGNING_KEY_ID_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_KEY_ID },
-//                SIGNING_PUB_KEY_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_PUB_KEY_ASCII_ARMORED },
-//                SIGNING_KEY_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_KEY_ASCII_ARMORED },
-//                SIGNING_PASSWORD_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_PASSWORD }
-//            )
-//        )
+        run(
+            name = "Publish",
+            command = "./gradlew :plugins:publish :plugins:publishPlugins -Pversion='${expr { tag }}'",
+            env = mapOf(
+                REPO_USERNAME_ENV to expr { secrets.MAVEN_SONATYPE_USERNAME },
+                REPO_PASSWORD_ENV to expr { secrets.MAVEN_SONATYPE_TOKEN },
+                GRADLE_PUBLISH_KEY_ENV to expr { secrets.GRADLE_PUBLISH_KEY },
+                GRADLE_PUBLISH_SECRET_ENV to expr { secrets.GRADLE_PUBLISH_SECRET },
+                SIGNING_KEY_ID_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_KEY_ID },
+                SIGNING_PUB_KEY_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_PUB_KEY_ASCII_ARMORED },
+                SIGNING_KEY_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_KEY_ASCII_ARMORED },
+                SIGNING_PASSWORD_ENV to expr { secrets.MAVEN_SONATYPE_SIGNING_PASSWORD }
+            )
+        )
     }
 }
 

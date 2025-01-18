@@ -10,6 +10,29 @@ publishing {
         create<MavenPublication>("versionCatalog") {
             from(components[GRADLE_PLATFORM_DEPENDENCIES])
             artifactId = "gradle-magic-wands-catalog"
+
+            pom {
+                description = "A catalog of plugins"
+                url = "https://github.com/zenhelix/gradle-magic-wands"
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/zenhelix/gradle-magic-wands.git"
+                    developerConnection = "scm:git:ssh://github.com/zenhelix/gradle-magic-wands.git"
+                    url = "https://github.com/zenhelix/gradle-magic-wands"
+                }
+                developers {
+                    developer {
+                        id = "dm.medakin"
+                        name = "Dmitrii Medakin"
+                        email = "dm.medakin.online@gmail.com"
+                    }
+                }
+            }
         }
     }
     repositories {
@@ -21,6 +44,19 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    // ORG_GRADLE_PROJECT_signingKeyId
+    val signingKeyId: String? by project
+    // ascii-armored format
+    // ORG_GRADLE_PROJECT_signingKey
+    val signingKey: String? by project
+    // ORG_GRADLE_PROJECT_signingPassword
+    val signingPassword: String? by project
+
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications)
 }
 
 val currentVersion = rootProject.version.toString()

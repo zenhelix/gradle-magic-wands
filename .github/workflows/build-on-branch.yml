@@ -24,4 +24,4 @@ jobs:
       uses: 'gradle/actions/wrapper-validation@v4'
     - id: 'step-3'
       name: 'Check'
-      run: './gradlew check'
+      run: './gradlew :plugins:check'
