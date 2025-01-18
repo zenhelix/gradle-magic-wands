@@ -19,7 +19,7 @@ dependencies {
     implementation(rootProject.projects.jdkConventions)
     implementation(rootProject.projects.javaConvention)
 
-    implementation(rootProject.projects.androidConventions)
+    implementation(rootProject.projects.androidConvention)
     implementation(rootProject.projects.androidSdkConventions)
 
     implementation(rootProject.projects.kotlinConvention)

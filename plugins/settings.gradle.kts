@@ -26,7 +26,7 @@ pluginManagement {
         mavenLocal()
     }
     plugins {
-        id("io.github.zenhelix.maven-central-publish") version "0.3.0"
+        id("io.github.zenhelix.maven-central-publish") version "0.4.0"
         id("com.gradle.plugin-publish") version "1.3.0"
     }
 }
@@ -55,7 +55,7 @@ includeConvention("kotlin-multiplatform-wasm-js-convention")
 includeConvention("kotlin-multiplatform-wasm-wasi-convention")
 includeConvention("kotlin-multiplatform-compose-convention")
 includeConvention("android-sdk-conventions")
-includeConvention("android-conventions")
+includeConvention("android-convention")
 includeConvention("lombok-convention")
 includeConvention("spring-convention")
 includeConvention("spring-boot-convention")
