@@ -63,7 +63,7 @@ includeConvention("distribution-convention")
 includeConvention("proguard-convention")
 
 includePlugin("java-library-plugin")
-includePlugin("kotlin-library-plugin")
+includePlugin("kotlin-jvm-library-plugin")
 includePlugin("spring-boot-app-plugin")
 includePlugin("kotlin-spring-boot-app-plugin")
 includePlugin("spring-library-plugin")
