@@ -1,0 +1,977 @@
+:doctype: book
+:source-highlighter: highlight.js
+
+:versionPlaceholder: x.y.z
+
+:toc: left
+:toc-title: Content
+:toclevels: 3
+
+= Gradle Magic Wands
+
+✨ A set of enchanted Gradle plugins that simplify and automate common build configurations, making your development workflow smoother and more magical!
+🚀
+
+== Plugin Types
+
+The plugins are divided into two types:
+
+1. *Convention*: These plugins automatically configure existing plugins, serving as basic building blocks.
+2. *Plugins*: These are composed of Convention plugins and others, simplifying configuration for common tasks.
+
+== Usage Examples
+
+Usage examples can be found in the `examples` project within this repository.
+
+== Key Features
+
+These plugins enable:
+
+- Creation of Spring Starter repositories.
+- Simplification of library builds for Java or Kotlin.
+- Streamlining configuration of Spring Boot application modules by hiding explicit plugin version declarations, their setup, and repository configurations.
+- Configuration of Compose (Jetpack Compose) and KMM (Kotlin Multiplatform Mobile) projects.
+
+== Goal
+
+The goal is to minimize manual configuration and standardize setups.
+
+== Plugin Management
+
+The repository provides a `catalog.toml` file, which serves as a centralized plugin catalog.
+This file allows you to declare and manage Gradle plugins in a structured way, making it easier to reuse them across projects.
+
+To use the plugin catalog, you need to include it in your Gradle build configuration.
+Below is an example of how to connect the catalog and apply plugins from it:
+
+[source,kotlin,subs="+attributes"]
+----
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("pluginsCatalog") {
+            from("io.github.zenhelix:gradle-magic-wands-catalog:{versionPlaceholder}")
+        }
+    }
+}
+
+// build.gradle.kts
+plugins {
+    alias(pluginsCatalog.plugins.example.plugin)
+}
+----
+
+This approach ensures consistent plugin management and simplifies updates across multiple projects.
+
+== Project Configuration Plugins
+
+=== Java Library
+
+This plugin simplifies the setup and configuration of Java libraries by applying a set of conventions and utilities for compilation, testing, and publishing.
+It integrates multiple plugins to provide a streamlined development experience for Java library projects.
+
+The plugin provides the following features to enhance your Java library development experience:
+
+- **Java Library Setup**: Automatically applies the `JavaLibraryPlugin` and `JavaPlugin` to configure the project as a Java library.
+
+- **Conventions for Java**: Applies the `JavaConventionPlugin` to enforce common Java compilation and packaging conventions.
+
+- **Lombok Integration**: Applies the `LombokConventionPlugin` to simplify the use of Lombok annotations in your project.
+
+- **Code Coverage with JaCoCo**: Applies the `JacocoPlugin` and `JacocoConventionPlugin` to enable code coverage reporting.
+It also integrates the `JacocoReportAggregationPlugin` for aggregating coverage reports across multiple projects.
+
+- **Maven Publishing**: Applies the `MavenPublishPlugin` and `PublishMavenConventionPlugin` to simplify the publishing of your library to Maven repositories.
+
+- **Test Suite Configuration**: Applies the `JvmTestSuiteConventionPlugin` to configure test suites for your project, making it easier to manage unit and integration tests.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.java-library") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Kotlin/JVM Library
+
+This plugin simplifies the setup and configuration of Kotlin JVM libraries by applying a set of conventions and utilities for compilation, testing, and publishing.
+It integrates multiple plugins to provide a streamlined development experience for Kotlin JVM library projects.
+
+The plugin provides the following features to enhance your Kotlin JVM library development experience:
+
+- **Java Library Setup**: Automatically applies the `JavaLibraryPlugin` to configure the project as a Java library.
+
+- **Kotlin JVM Support**: Applies the `KotlinPluginWrapper` to enable Kotlin JVM compilation and other Kotlin-specific features.
+
+- **Annotation Processing**: Applies the `Kapt3GradleSubplugin` to enable Kotlin annotation processing (Kapt), which is useful for libraries that use annotations.
+
+- **All-Open and No-Arg Plugins**: Applies the `AllOpenGradleSubplugin` and `NoArgGradleSubplugin` to support Spring and JPA features, such as making classes open by default and generating no-argument constructors.
+
+- **Kotlin Conventions**: Applies the `KotlinJvmConventionPlugin` and `KotlinLibraryConventionPlugin` to enforce common Kotlin compilation and packaging conventions.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kotlin-jvm-library") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Kotlin Spring Boot App
+
+This plugin simplifies the setup and configuration of Spring Boot applications that use Kotlin.
+It applies a set of conventions and utilities to streamline the development of Spring Boot projects, including Kotlin-specific configurations and Spring Boot enhancements.
+
+The plugin provides the following features to enhance your Spring Boot and Kotlin development experience:
+
+- **Spring Boot Application Setup**: Automatically applies the `SpringBootApplicationPlugin` to configure the project as a Spring Boot application.
+
+- **Kotlin JVM Support**: Applies the `KotlinPluginWrapper` to enable Kotlin JVM compilation and other Kotlin-specific features.
+
+- **Annotation Processing**: Applies the `Kapt3GradleSubplugin` to enable Kotlin annotation processing (Kapt), which is useful for Spring Boot projects that use annotations.
+
+- **All-Open and No-Arg Plugins**: Applies the `AllOpenGradleSubplugin` and `NoArgGradleSubplugin` to support Spring features, such as making classes open by default and generating no-argument constructors.
+
+- **Kotlin Conventions**: Applies the `KotlinJvmConventionPlugin` to enforce common Kotlin compilation and packaging conventions.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kotlin.spring-boot-app") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM App
+
+This plugin simplifies the setup and configuration of Kotlin Multiplatform (KMM) applications.
+It provides a comprehensive set of conventions and utilities for building multiplatform apps that target JVM, Android, iOS, JavaScript, and WebAssembly (Wasm).
+The plugin integrates multiple plugins to ensure that your project is configured with best practices for multiplatform development.
+
+The plugin provides the following features to enhance your Kotlin Multiplatform development experience:
+
+- **Multiplatform Support**: Configures the project to support multiple platforms, including:
+- **JVM**: Configures the `desktop` target for JVM applications.
+- **Android**: Configures the `androidTarget` for Android applications.
+- **iOS**: Configures targets for `iosX64`, `iosArm64`, and `iosSimulatorArm64`.
+- **JavaScript**: Configures the `js` target for browser-based applications.
+- **WebAssembly (Wasm)**: Configures the `wasmJs` target for WebAssembly applications.
+
+- **Default Hierarchy Template**: Applies the default Kotlin Multiplatform hierarchy template to ensure consistent project structure across platforms.
+
+- **Webpack Configuration**: Configures Webpack for JavaScript and WebAssembly targets, enabling CSS support and serving sources for debugging in the browser.
+
+- **Android Configuration**: Configures the Android project with the correct source sets for `AndroidManifest.xml`, resources, and common resources.
+
+- **Plugin Integration**: Integrates a variety of plugins to handle common tasks, including:
+- **Maven Publishing**: Applies the `MavenPublishPlugin` and `PublishMavenConventionPlugin` for publishing artifacts.
+- **Java Conventions**: Applies the `JavaConventionPlugin` for Java-specific configurations.
+- **Kotlin Conventions**: Applies the `KotlinConventionPlugin`, `KotlinJvmConventionPlugin`, and `KotlinMultiplatformConventionPlugin` for Kotlin-specific configurations.
+- **Android Conventions**: Applies the `AndroidConventionPlugin` and `AndroidCompilationConventionPlugin` for Android-specific configurations.
+- **Proguard Configuration**: Applies the `ProguardConventionPlugin` for Proguard rules.
+- **Distribution Configuration**: Applies the `DistributionConventionPlugin` for distributing multiplatform applications.
+- **Java 21 Support**: Applies the `Java21CompilationConventionPlugin` for Java 21 compatibility.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-app") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Compose App
+
+This plugin simplifies the setup and configuration of Kotlin Multiplatform (KMM) applications that use Jetpack Compose for UI development.
+It builds on the `MultiplatformAppPlugin` to provide additional support for Compose, enabling you to build multiplatform applications with shared UI code across platforms.
+
+The plugin provides the following features to enhance your Kotlin Multiplatform Compose development experience:
+
+- **Compose Integration**: Automatically applies the `ComposePlugin` and `KotlinMultiplatformComposeConventionPlugin` to enable Jetpack Compose for multiplatform projects.
+
+- **Compose Compiler Support**: Applies the `ComposeCompilerGradleSubplugin` to ensure that the Compose compiler is properly configured for Kotlin Multiplatform projects.
+
+- **Desktop Application Distribution**: Configures the `DesktopExtension` to support native distribution formats for desktop applications, including:
+- **macOS**: DMG and PKG formats.
+- **Windows**: MSI and EXE formats.
+- **Linux**: DEB and RPM formats.
+
+- **Multiplatform App Plugin Integration**: Builds on the `MultiplatformAppPlugin` to provide a comprehensive setup for multiplatform applications, including support for JVM, Android, iOS, JavaScript, and WebAssembly.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-compose-app") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Compose Library
+
+This plugin simplifies the setup and configuration of Kotlin Multiplatform (KMM) libraries that use Jetpack Compose for UI development.
+It builds on the `MultiplatformLibraryPlugin` to provide additional support for Compose, enabling you to create multiplatform libraries with shared UI code across platforms.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-compose-library") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Library
+
+This plugin simplifies the setup and configuration of Kotlin Multiplatform (KMM) libraries.
+It provides a comprehensive set of conventions and utilities for building multiplatform libraries that target JVM, Android, iOS, JavaScript, and WebAssembly (Wasm).
+The plugin integrates multiple plugins to ensure that your project is configured with best practices for multiplatform development.
+
+The plugin provides the following features to enhance your Kotlin Multiplatform development experience:
+
+- **Multiplatform Support**: Configures the project to support multiple platforms, including:
+- **JVM**: Configures the `desktop` target for JVM libraries.
+- **Android**: Configures the `androidTarget` for Android libraries and publishes both `release` and `debug` variants.
+- **iOS**: Configures targets for `iosX64`, `iosArm64`, and `iosSimulatorArm64`.
+- **JavaScript**: Configures the `js` target for browser-based libraries.
+- **WebAssembly (Wasm)**: Configures the `wasmJs` target for WebAssembly libraries.
+
+- **Default Hierarchy Template**: Applies the default Kotlin Multiplatform hierarchy template to ensure consistent project structure across platforms.
+
+- **Android Configuration**: Configures the Android project with the correct source sets for `AndroidManifest.xml`, resources, and common resources.
+
+- **Plugin Integration**: Integrates a variety of plugins to handle common tasks, including:
+- **Maven Publishing**: Applies the `MavenPublishPlugin` and `PublishMavenConventionPlugin` for publishing artifacts.
+- **Java Conventions**: Applies the `JavaConventionPlugin` for Java-specific configurations.
+- **Kotlin Conventions**: Applies the `KotlinConventionPlugin`, `KotlinJvmConventionPlugin`, and `KotlinLibraryConventionPlugin` for Kotlin-specific configurations.
+- **Android Conventions**: Applies the `AndroidConventionPlugin` and `AndroidCompilationConventionPlugin` for Android-specific configurations.
+- **Distribution Configuration**: Applies the `DistributionConventionPlugin` for distributing multiplatform libraries.
+- **Java 21 Support**: Applies the `Java21CompilationConventionPlugin` for Java 21 compatibility.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-library") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Spring Boot App
+
+This plugin simplifies the setup and configuration of Spring Boot applications.
+It provides a comprehensive set of conventions and utilities for building, testing, and publishing Spring Boot projects.
+The plugin integrates multiple plugins to ensure that your project is configured with best practices for Spring Boot development.
+
+The plugin provides the following features to enhance your Spring Boot development experience:
+
+- **Spring Boot Support**: Automatically applies the `SpringBootPlugin` and `SpringBootConventionPlugin` to configure the project as a Spring Boot application.
+
+- **Java Conventions**: Applies the `JavaPlugin` and `JavaConventionPlugin` for Java-specific configurations, ensuring that your project follows best practices for Java development.
+
+- **Lombok Integration**: Applies the `LombokConventionPlugin` to simplify the use of Lombok annotations in your project.
+
+- **Code Coverage with JaCoCo**: Applies the `JacocoPlugin` and `JacocoConventionPlugin` to enable code coverage reporting.
+It also integrates the `JacocoReportAggregationPlugin` for aggregating coverage reports across multiple projects.
+
+- **Maven Publishing**: Applies the `MavenPublishPlugin` and `PublishMavenConventionPlugin` to simplify the publishing of your Spring Boot application to Maven repositories.
+
+- **Test Suite Configuration**: Applies the `JvmTestSuiteConventionPlugin` to configure test suites for your project, making it easier to manage unit and integration tests.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.spring-boot-app") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Spring Boot Autoconfigure Library
+
+This plugin simplifies the setup and configuration of Spring Boot autoconfigure libraries.
+It provides a set of conventions and utilities for building libraries that extend Spring Boot's autoconfiguration capabilities.
+The plugin integrates with Spring Boot's annotation processors and ensures that your library is properly configured for autoconfiguration.
+
+The plugin provides the following features to enhance your Spring Boot autoconfigure library development experience:
+
+- **Spring Boot Autoconfigure Support**: Automatically adds the `spring-boot-autoconfigure` dependency to the project, which is required for creating Spring Boot autoconfiguration libraries.
+
+- **Annotation Processing**: Configures the project to use Spring Boot's annotation processors (`spring-boot-configuration-processor` and `spring-boot-autoconfigure-processor`).
+If the `kotlin-kapt` plugin is applied, it uses Kapt for annotation processing; otherwise, it uses the standard Java annotation processor configuration.
+
+- **Spring Library Integration**: Builds on the `SpringLibraryPlugin` and `SpringConventionPlugin` to provide a comprehensive setup for Spring libraries, including support for Spring Boot autoconfiguration.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.spring-boot-autoconfigure-library") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Spring Boot Starter
+
+This plugin simplifies the setup and configuration of Spring Boot starter libraries.
+It builds on the `SpringBootAutoconfigureLibraryPlugin` to provide additional support for creating Spring Boot starter libraries, which are used to simplify dependency management and configuration in Spring Boot applications.
+
+The plugin provides the following features to enhance your Spring Boot starter library development experience:
+
+- **Spring Boot Starter Support**: Automatically adds the `spring-boot-starter` dependency to the project, which is required for creating Spring Boot starter libraries.
+
+- **Autoconfigure Integration**: Builds on the `SpringBootAutoconfigureLibraryPlugin` to provide a comprehensive setup for Spring Boot autoconfiguration and annotation processing.
+
+- **Simplified Dependency Management**: Ensures that your starter library is properly configured to simplify dependency management and configuration for Spring Boot applications.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.spring-boot-starter") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Spring Library
+
+This plugin simplifies the setup and configuration of Spring libraries.
+It provides a set of conventions and utilities for building libraries that integrate with the Spring framework.
+The plugin ensures that your library is properly configured for Spring development, including support for annotation processing and Spring-specific configurations.
+
+The plugin provides the following features to enhance your Spring library development experience:
+
+- **Java Library Support**: Automatically applies the `JavaLibraryPlugin` to configure the project as a Java library, ensuring that it follows best practices for Java development.
+
+- **Spring Conventions**: Applies the `SpringConventionPlugin` to enforce common Spring-specific configurations, such as enabling JSR-305 null-safety and applying Kotlin plugins for Spring support.
+
+- **Annotation Processing**: Ensures that the project is configured to use Spring's annotation processors, which are required for advanced Spring features.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.spring-library") version "{versionPlaceholder}"
+}
+----
+====
+
+== Conventions
+
+=== Android Convention
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.android.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+Automatically configures Android-related plugins if they are present in the project.
+
+=== Android SDK Convention
+
+This plugin is designed to simplify the configuration of Android project compilation parameters such as `compileSdkVersion`, `minSdk`, and `targetSdk`.
+It automatically applies these settings to library modules (`com.android.library`) and application modules (`com.android.application`) if they are present in the project.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.android-sdk.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+The plugin provides an `androidExt` extension that allows you to configure the compilation parameters.
+The default values are:
+
+- `minSdk`: 21
+- `compileSdk`: 33
+- `targetSdk`: 33
+
+.You can override these values in your `build.gradle.kts` file:
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+androidExt {
+    minSdk = 23
+    compileSdk = 31
+    targetSdk = 31
+}
+----
+====
+
+=== Distribution Convention
+
+This plugin is designed to simplify the distribution of multiplatform projects, including Kotlin/JS, Compose Desktop applications, and other Kotlin multiplatform targets.
+It provides a unified way to configure output directories, create distribution archives, handle naming conventions, and manage binary files for different platforms.
+
+- **Kotlin/JS**: Automatically configures the output directory for JS binaries and creates ZIP archives for distribution.
+- **Compose Desktop**: Automatically renames and copies binary files to a specified output directory, making it easier to manage desktop application distributions.
+- **Multiplatform**: Handles distribution tasks for Kotlin multiplatform projects, including browser, Node.js, and other targets.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.distribution.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+The plugin provides a `distributionExt` extension that allows you to configure the distribution parameters.
+The default values are:
+
+- `enabled`: `true`
+- `outputDestination`: `"distributions"`
+- `finalOutputDestination`: `"out"`
+
+.You can override these values in your `build.gradle.kts` file:
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+distributionExt {
+    enabled = true
+    outputDestination = "custom-distributions"
+    finalOutputDestination = "custom-out"
+}
+----
+====
+
+The plugin adds the following tasks to your project:
+
+- **For Kotlin/JS**:
+- `zip\{Target}\{SubTarget}\{BinaryName}Distribution`: Creates a ZIP archive of the distribution for Kotlin/JS projects.
+- **For Compose Desktop**:
+- `rename\{TaskName}`: Renames the binary file.
+- `copyRename\{TaskName}`: Copies and renames the binary file to the final output directory.
+
+These tasks are grouped under the `distribution` task group.
+
+=== Gradle Wrapper Convention
+
+This plugin simplifies the configuration of the Gradle Wrapper in your project.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.gradle-wrapper.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+- `baseUrl`: `"https://services.gradle.org/distributions/"`
+- `enabled`: `true`
+
+.You can override these values in your `build.gradle.kts` file:
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+gradleWrapperExt {
+    baseUrl = "https://custom.gradle.distributions/"
+    enabled = true
+}
+----
+====
+
+=== JaCoCo Convention
+
+This plugin simplifies the configuration of JaCoCo (Java Code Coverage) in your project.
+It ensures that JaCoCo reports are generated in both XML and HTML formats by default.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.jacoco.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== JaCoCo Report Aggregation Convention
+
+This plugin simplifies the aggregation of JaCoCo (Java Code Coverage) reports across multiple subprojects in a Gradle multi-project build.
+It automatically configures the `jacoco-report-aggregation` plugin to include all subprojects that have the JaCoCo plugin applied.
+
+- **Automatic Aggregation**: Automatically includes all subprojects that have the JaCoCo plugin applied into the `jacoco-report-aggregation` configuration.
+- **Multi-Project Support**: Works seamlessly in Gradle multi-project builds, ensuring that coverage reports from all relevant subprojects are aggregated.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.jacoco-report-aggregation.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+If you have a multi-project build with the following structure:
+
+[source,subs="+attributes"]
+----
+root
+├── subproject1 (applies jacoco plugin)
+├── subproject2 (applies jacoco plugin)
+└── subproject3 (does not apply jacoco plugin)
+----
+
+The plugin will automatically include `subproject1` and `subproject2` in the JaCoCo report aggregation, while `subproject3` will be ignored.
+
+=== Java Convention
+
+This plugin simplifies the configuration of Java projects by providing conventions for generating Javadoc and sources JARs.
+It also configures Javadoc options to suppress unnecessary warnings.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.java.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+- `enabled`: Enables or disables the plugin (default: `true`).
+- `withJavadocJar`: Generates a Javadoc JAR if set to `true` (default: `true`).
+- `withSourcesJar`: Generates a sources JAR if set to `true` (default: `true`).
+
+.You can override these values in your `build.gradle.kts` file:
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+javaExt {
+    enabled = true
+    withJavadocJar = true
+    withSourcesJar = true
+}
+----
+====
+
+=== JDK Convention
+
+These plugins simplify the configuration of Java and Kotlin projects by setting the target Java version for compilation.
+They support Java 8, 11, 17, and 21, and can be applied to Java, Kotlin/JVM, Kotlin Multiplatform, and Android projects.
+
+- **Java Compatibility**: Sets the `sourceCompatibility` and `targetCompatibility` for Java projects.
+- **Kotlin/JVM Compatibility**: Configures the `jvmTarget` for Kotlin/JVM projects.
+- **Kotlin Multiplatform Compatibility**: Configures the `jvmTarget` for Kotlin Multiplatform projects.
+- **Android Compatibility**: Configures the `compileOptions` for Android projects.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.jdk8.convention") version "{versionPlaceholder}" // For Java 8
+    id("io.github.zenhelix.jdk11.convention") version "{versionPlaceholder}" // For Java 11
+    id("io.github.zenhelix.jdk17.convention") version "{versionPlaceholder}" // For Java 17
+    id("io.github.zenhelix.jdk21.convention") version "{versionPlaceholder}" // For Java 21
+}
+----
+====
+
+=== JVM Test Suite Convention
+
+This plugin simplifies the configuration of JVM test suites in your project.
+It automatically configures test suites for unit tests, functional tests, integration tests, and performance tests, ensuring that they use JUnit Jupiter and have the correct dependencies and task ordering.
+
+- **Automatic Test Suite Configuration**: Configures test suites for unit tests, functional tests, integration tests, and performance tests.
+- **JUnit Jupiter**: Automatically configures all test suites to use JUnit Jupiter.
+- **Dependency Management**: Ensures that test suites extend the `implementation` configuration of the main project.
+- **Task Ordering**: Configures test tasks to run in the correct order (e.g., functional tests run after unit tests).
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.jvm-test-suite.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+==== Test Suites
+
+The plugin configures the following test suites:
+
+- **Unit Test (`test`)**: The default unit test suite.
+- **Functional Test (`functionalTest`)**: A suite for functional tests.
+- **Integration Test (`integrationTest`)**: A suite for integration tests.
+- **Performance Test (`performanceTest`)**: A suite for performance tests.
+
+=== Kotlin Convention
+
+This plugin simplifies the configuration of Kotlin projects.
+
+- **Context Receivers**: Automatically adds the `-Xcontext-receivers` compiler option to all Kotlin compilation tasks, enabling experimental support for context receivers.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kotlin.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Kotlin/JVM Convention
+
+This plugin provides a set of conventions and configurations for Kotlin/JVM projects to simplify development and improve build performance.
+It ensures that common Kotlin/JVM settings are applied consistently across projects, reducing the need for manual configuration.
+
+- **JVM Type Annotations**: Enables the `-Xemit-jvm-type-annotations` compiler option, which ensures that type annotations in generics (e.g., `List<@Min(0) @Max(10) Int>`) are emitted into the JVM bytecode.
+This is particularly useful for libraries and frameworks that rely on type annotations for validation or other purposes.
+
+- **Kapt Optimization**: Configures Kapt to use the build cache, which can significantly improve build performance, especially in large projects.
+Additionally, it ensures that the `kapt` configuration extends from the `annotationProcessor` configuration, simplifying dependency management.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kotlin-jvm.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Kotlin Library Convention
+
+This plugin provides a set of conventions for Kotlin library projects, ensuring that they are configured with best practices in mind.
+It is particularly useful for libraries that need to maintain a clear and explicit API surface.
+
+- **Explicit API Mode**: Enables Kotlin's `explicitApi()` mode, which ensures that all public declarations in the library have explicitly defined visibility.
+This helps prevent accidental exposure of internal APIs and makes the library's public API surface more predictable and easier to maintain.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kotlin-library.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Android Convention
+
+This plugin simplifies the configuration of Kotlin Multiplatform (KMM) projects that use Jetpack Compose for UI development.
+It ensures that common Compose dependencies and experimental features are configured consistently across all supported platforms.
+
+The plugin provides the following features to enhance your Kotlin Multiplatform Compose development experience:
+
+- **Common Compose Dependencies**: Automatically adds the necessary Compose dependencies for the `commonMain` and `commonTest` source sets, including `compose.runtime` and `compose.uiTest`.
+
+- **Platform-Specific Dependencies**: Configures platform-specific dependencies for Android, JS, and Desktop targets:
+- **Android**: Adds dependencies for `activity-compose` and `ui-tooling-preview`.
+- **JS**: Adds dependencies for Compose HTML core.
+- **Desktop**: Adds dependencies for Compose Desktop and preview tools.
+
+- **Experimental Features**: Enables experimental Compose features such as UIKit, JSCanvas, and WebAssembly support, allowing you to explore cutting-edge capabilities in your projects.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-android.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Compose Convention
+
+This plugin simplifies the configuration of Kotlin Multiplatform (KMM) projects that use Jetpack Compose for UI development.
+
+The plugin automatically enables the following experimental Compose features:
+
+- **UIKit Support**: Enables Compose for iOS via UIKit.
+- **JSCanvas Support**: Enables Compose for JavaScript environments using the HTML Canvas API.
+- **WebAssembly Support**: Enables Compose for WebAssembly (Wasm) targets.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-compose.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Convention
+
+This plugin simplifies the configuration of Kotlin Multiplatform (KMM) projects by applying common conventions and settings.
+
+The plugin automatically applies the following configurations:
+
+- **Ignore Disabled Targets**: Sets the `kotlin.native.ignoreDisabledTargets` property to `true`, which allows the build to proceed even if some native targets are disabled.
+- **Sources JAR Generation**: Enables the generation of sources JARs for the project, making it easier to distribute and consume the library.
+- **Experimental Compiler Option**: Adds the `-Xexpect-actual-classes` compiler option, which is useful for projects that use `expect` and `actual` declarations.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+Automatically configures plugins for Kotlin Multiplatform Mobile (KMM).
+
+=== KMM iOS Convention
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-ios.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM JavaScript Convention
+
+This plugin simplifies the configuration of Kotlin Multiplatform (KMM) projects that target JavaScript (JS).
+It ensures that common JS-specific settings and optimizations are applied consistently across your project.
+
+The plugin automatically applies the following configurations:
+
+- **Incremental Compilation**: Enables incremental compilation for Kotlin/JS IR (Intermediate Representation), which can significantly improve build performance.
+- **ES Modules**: Configures the Kotlin/JS target to use ES modules, which are the modern standard for JavaScript module systems.
+- **TypeScript Definitions**: Automatically generates TypeScript definitions (`*.d.ts` files) for Kotlin code, making it easier to interoperate with TypeScript projects.
+- **Compiler Options**: Sets the JavaScript target to `es2015` and enables the `-Xir-per-file` compiler option for better performance and compatibility.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-js.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM JVM Convention
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-jvm.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Wasm JS Convention
+
+This plugin simplifies the configuration of Kotlin Multiplatform (KMM) projects that target WebAssembly (Wasm) for JavaScript.
+It ensures that common Wasm-specific settings and optimizations are applied consistently across your project.
+
+The plugin automatically applies the following configurations:
+
+- **ES Modules**: Configures the Kotlin/Wasm target to use ES modules, which are the modern standard for JavaScript module systems.
+- **TypeScript Definitions**: Automatically generates TypeScript definitions (`*.d.ts` files) for Kotlin code, making it easier to interoperate with TypeScript projects.
+- **Compiler Options**: Sets the JavaScript target to `es2015` and enables the `-Xir-per-file` compiler option for better performance and compatibility.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-wasm-js.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== KMM Wasm WASI Convention
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.kmm-wasm-wasi.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+Automatically configures plugins for Kotlin Multiplatform Mobile (KMM) with WebAssembly (Wasm) support for WASI.
+
+=== Lombok Convention
+
+This plugin simplifies the integration of Lombok into Kotlin/JVM projects.
+It ensures that Lombok annotations are properly processed and that the necessary configurations are applied to work seamlessly with Kotlin and Kapt (Kotlin Annotation Processing Tool).
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.lombok.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== ProGuard Convention
+
+This plugin simplifies the configuration of Proguard for Kotlin Compose Desktop projects.
+It ensures that Proguard rules are automatically generated and applied to the release build of your Compose Desktop application.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.proguard.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Maven Publish Convention
+
+This plugin simplifies the configuration of Maven publishing for your Gradle projects.
+It ensures that publications are automatically configured with a build identifier, making it easier to manage and track published artifacts.
+
+The plugin provides the following features to enhance your Maven publishing experience:
+
+- **Build Identifier**: Automatically adds a build identifier to all Maven publications, making it easier to track and manage artifacts in repositories.
+
+- **Seamless Integration**: Works seamlessly with the `maven-publish` plugin, requiring no additional configuration beyond enabling the plugin.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.maven-publish.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Spring Boot Convention
+
+This plugin simplifies the configuration of Spring Boot projects by applying common conventions and settings.
+It ensures that your Spring Boot project is set up with best practices, including repository configuration, build info generation, and task ordering.
+
+The plugin provides the following features to enhance your Spring Boot development experience:
+
+- **Repository Configuration**: Automatically configures the appropriate repositories (milestone or snapshot) based on the Spring Boot version being used.
+
+- **Build Info Generation**: Ensures that the `bootBuildInfo` task is configured to generate build information, which can be useful for tracking builds and versions.
+
+- **Task Ordering**: Ensures that the `bootBuildInfo` task runs after the `compileJava` task, maintaining the correct order of operations during the build process.
+
+- **Spring Convention Plugin Integration**: Automatically applies the `SpringConventionPlugin` if it is available in the classpath, further simplifying the setup of Spring projects.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.spring-boot.convention") version "{versionPlaceholder}"
+}
+----
+====
+
+=== Spring Convention
+
+This plugin simplifies the configuration of Spring projects that use Kotlin.
+It ensures that common Spring and Kotlin configurations are applied, such as enabling JSR-305 null-safety, applying Kotlin plugins for Spring support, and setting up task dependencies.
+
+The plugin provides the following features to enhance your Spring and Kotlin development experience:
+
+- **JSR-305 Null-Safety**: Configures the Kotlin compiler to enforce strict null-safety using the `-Xjsr305=strict` compiler option, which is particularly useful for Spring projects that rely on null-safety annotations.
+
+- **Kotlin Plugin Integration**: Automatically applies the following Kotlin plugins if they are available in the classpath:
+- **Kapt**: Enables Kotlin annotation processing.
+- **All-Open**: Makes classes open by default, which is required for Spring to proxy them.
+- **No-Arg**: Generates no-argument constructors for classes, which is useful for JPA entities.
+- **Spring Plugin**: Applies Spring-specific configurations to the `all-open` plugin.
+
+- **Task Ordering**: Ensures that the `compileJava` task depends on the `processResources` task, maintaining the correct order of operations during the build process.
+
+.Installation
+[%collapsible]
+====
+[source,kotlin,subs="+attributes"]
+----
+plugins {
+    id("io.github.zenhelix.spring.convention") version "{versionPlaceholder}"
+}
+----
+====
