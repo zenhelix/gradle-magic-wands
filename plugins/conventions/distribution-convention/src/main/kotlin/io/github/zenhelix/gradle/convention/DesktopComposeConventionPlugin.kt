@@ -63,7 +63,7 @@ public class DesktopComposeConventionPlugin : Plugin<Project> {
                         from(fromFile)
                         into(
                             layout.buildDirectory
-                                .dir(distributionExtension.finalOutputDestination.convention(DEFAULT_FINAL_OUTPUT_DESTINATION))
+                                .dir(distributionExtension.finalOutputDestination)
                                 .map { it.dir(currentOS.id) }
                         )
                         rename { DistributionName.desktop(packageTask) }
