@@ -5,7 +5,6 @@ import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.github.zenhelix.gradle.convention.ExtraGradleWrapperExtension.Companion.GRADLE_WRAPPER_DIST_URL
 import io.github.zenhelix.gradle.convention.GradleWrapperConventionPlugin.Companion.DEFAULT_FALLBACK_VERSION
-import io.github.zenhelix.gradle.convention.GradleWrapperConventionPlugin.Companion.GRADLE_BASE_URL_PROPERTY_NAME
 import io.github.zenhelix.gradle.convention.GradleWrapperConventionPlugin.Companion.GRADLE_WRAPPER_CONVENTION_PLUGIN_ID
 import io.github.zenhelix.gradle.test.gradleRunner
 import org.junit.jupiter.api.AfterEach
@@ -29,6 +28,7 @@ class GradleWrapperConventionPluginFunctionalTest {
 
         private val propsMapper = JavaPropsMapper().registerModule(kotlinModule())
         private const val CURRENT_GRADLE_VERSION = "8.12"
+        private const val GRADLE_BASE_URL_PROPERTY_NAME: String = "org.gradle.internal.services.base.url"
     }
 
     @BeforeEach
