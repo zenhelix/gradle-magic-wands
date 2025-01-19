@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.gradle.api.publish.maven.plugins.MavenPublishPlugin.PUBLISH_LOCAL_LIFECYCLE_TASK_NAME
+import org.gradle.api.publish.plugins.PublishingPlugin.PUBLISH_LIFECYCLE_TASK_NAME
+import org.gradle.language.base.plugins.LifecycleBasePlugin.ASSEMBLE_TASK_NAME
+import org.gradle.language.base.plugins.LifecycleBasePlugin.BUILD_TASK_NAME
+import org.gradle.language.base.plugins.LifecycleBasePlugin.CHECK_TASK_NAME
+import org.gradle.language.base.plugins.LifecycleBasePlugin.CLEAN_TASK_NAME
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget.Companion.fromTarget
 import org.jetbrains.kotlin.gradle.utils.extendsFrom
 
@@ -140,4 +146,18 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
         vcsUrl = "https://github.com/zenhelix/gradle-magic-wands.git"
     }
 
+}
+
+signing {
+    isRequired = false
+}
+
+listOf(
+    CLEAN_TASK_NAME, ASSEMBLE_TASK_NAME, BUILD_TASK_NAME,
+    CHECK_TASK_NAME, "jacocoTestReport", "testCodeCoverageReport",
+    PUBLISH_LIFECYCLE_TASK_NAME, PUBLISH_LOCAL_LIFECYCLE_TASK_NAME, "publishPlugins"
+).forEach { taskName ->
+    tasks.findByName(taskName)?.also { task ->
+        task.dependsOn(project.subprojects.mapNotNull { it.tasks.findByName(taskName) })
+    }
 }
