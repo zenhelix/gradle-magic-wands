@@ -1,7 +1,7 @@
 gradlePlugin {
     plugins {
         create("kmm-compose.convention") {
-            implementationClass = "io.github.zenhelix.gradle.convention.KotlinMultiplatformConventionPlugin"
+            implementationClass = "io.github.zenhelix.gradle.convention.KotlinMultiplatformComposeConventionPlugin"
             id = "io.github.zenhelix.kmm-compose.convention"
             displayName = "Gradle plugin for Kotlin Multiplatform Compose setup"
             description = "A Gradle plugin that simplifies and enhances the configuration of Kotlin Multiplatform projects with Compose Multiplatform"
