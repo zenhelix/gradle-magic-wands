@@ -2,6 +2,7 @@
 
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin.PUBLISH_LOCAL_LIFECYCLE_TASK_NAME
 import org.gradle.api.publish.plugins.PublishingPlugin.PUBLISH_LIFECYCLE_TASK_NAME
+import org.gradle.api.publish.plugins.PublishingPlugin.PUBLISH_TASK_GROUP
 import org.gradle.language.base.plugins.LifecycleBasePlugin.ASSEMBLE_TASK_NAME
 import org.gradle.language.base.plugins.LifecycleBasePlugin.BUILD_TASK_NAME
 import org.gradle.language.base.plugins.LifecycleBasePlugin.CHECK_TASK_NAME
@@ -146,6 +147,16 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
         vcsUrl = "https://github.com/zenhelix/gradle-magic-wands.git"
     }
 
+}
+
+listOf(
+    PUBLISH_LIFECYCLE_TASK_NAME to PUBLISH_TASK_GROUP,
+    PUBLISH_LOCAL_LIFECYCLE_TASK_NAME to PUBLISH_TASK_GROUP,
+    "publishPlugins" to PUBLISH_TASK_GROUP,
+).forEach { (taskName, taskGroup) ->
+    tasks.register(taskName) {
+        group = taskGroup
+    }
 }
 
 listOf(
