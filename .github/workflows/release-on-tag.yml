@@ -48,4 +48,4 @@ jobs:
         ORG_GRADLE_PROJECT_signingPublicKey: '${{ secrets.MAVEN_SONATYPE_SIGNING_PUB_KEY_ASCII_ARMORED }}'
         ORG_GRADLE_PROJECT_signingKey: '${{ secrets.MAVEN_SONATYPE_SIGNING_KEY_ASCII_ARMORED }}'
         ORG_GRADLE_PROJECT_signingPassword: '${{ secrets.MAVEN_SONATYPE_SIGNING_PASSWORD }}'
-      run: './gradlew :plugins:publish -Pversion=''${{ steps.step-1.outputs.tag }}'''
+      run: './gradlew :plugins:publishPlugins :plugins:aa_catalog:publish -Pversion=''${{ steps.step-1.outputs.tag }}'''
