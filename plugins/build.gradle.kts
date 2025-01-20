@@ -13,7 +13,7 @@ plugins {
     `kotlin-dsl`
     `jacoco-report-aggregation`
     `jvm-test-suite`
-    id("com.gradle.plugin-publish")
+    id("com.gradle.plugin-publish") apply false
     signing
 }
 
@@ -84,7 +84,7 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
     }
 
     val functionalTest by sourceSets.existing
-    gradlePlugin { testSourceSet(functionalTest.get()) }
+    configure<GradlePluginDevelopmentExtension> { testSourceSet(functionalTest.get()) }
 
     configurations {
         named<Configuration>("functionalTestImplementation").extendsFrom(configurations.testImplementation)
@@ -122,7 +122,7 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
         }
     }
 
-    publishing {
+    configure<PublishingExtension> {
         repositories {
             mavenLocal()
         }
@@ -138,18 +138,14 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
         val signingPassword: String? by project
 
         useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        sign(publishing.publications)
+        sign(extensions.getByType<PublishingExtension>().publications)
     }
 
-    gradlePlugin {
+    configure<GradlePluginDevelopmentExtension> {
         website = "https://github.com/zenhelix/gradle-magic-wands"
         vcsUrl = "https://github.com/zenhelix/gradle-magic-wands.git"
     }
 
-}
-
-signing {
-    isRequired = false
 }
 
 listOf(

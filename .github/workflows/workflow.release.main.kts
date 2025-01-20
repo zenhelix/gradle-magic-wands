@@ -100,7 +100,7 @@ workflow(
         uses(name = "Set up Java", action = SetupJava(javaVersion = "17", distribution = Temurin))
         run(
             name = "Publish",
-            command = "./gradlew :plugins:publish -Pversion='${expr { tag }}'",
+            command = "./gradlew :plugins:publishPlugins :plugins:aa_catalog:publish -Pversion='${expr { tag }}'",
             env = mapOf(
                 REPO_USERNAME_ENV to expr { secrets.MAVEN_SONATYPE_USERNAME },
                 REPO_PASSWORD_ENV to expr { secrets.MAVEN_SONATYPE_TOKEN },
