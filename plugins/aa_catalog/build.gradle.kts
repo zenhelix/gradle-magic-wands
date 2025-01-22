@@ -68,7 +68,7 @@ catalog {
         rootProject.subprojects.filter { it.name != "aa_catalog" }.forEach { project ->
             project.afterEvaluate {
                 this.extensions.findByType<GradlePluginDevelopmentExtension>()?.plugins?.forEach {
-                    plugin(it.name.replace(".", "-"), it.name).version(currentVersion)
+                    plugin(it.name.replace(".", "-"), it.id).version(currentVersion)
                 }
             }
         }
