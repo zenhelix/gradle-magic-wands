@@ -2,7 +2,7 @@
 
 // github-workflows-kt
 @file:Repository("https://repo.maven.apache.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.1.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.2.0")
 @file:Repository("https://bindings.krzeminski.it")
 
 // Actions

@@ -25,7 +25,12 @@ public class KotlinMultiplatformWasmJsConventionPlugin : Plugin<Project> {
                     generateTypeScriptDefinitions()
                     compilerOptions {
                         this.target.set("es2015")
-                        freeCompilerArgs.add("-Xir-per-file")
+                        // Especially through the creation, because sometimes freeCompilerArgs can be null
+                        freeCompilerArgs.set(
+                            freeCompilerArgs.getOrElse(emptyList()).toMutableList().apply {
+                                add("-Xir-per-file")
+                            }
+                        )
                     }
                 }
             }

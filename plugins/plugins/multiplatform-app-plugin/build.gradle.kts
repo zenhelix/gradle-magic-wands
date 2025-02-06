@@ -32,6 +32,6 @@ dependencies {
     implementation(rootProject.projects.kotlinMultiplatformWasmJsConvention)
     implementation(rootProject.projects.kotlinMultiplatformWasmWasiConvention)
 
-    implementation(rootProject.projects.distributionConvention)
+    api(rootProject.projects.distributionConvention)
     implementation(rootProject.projects.proguardConvention)
 }

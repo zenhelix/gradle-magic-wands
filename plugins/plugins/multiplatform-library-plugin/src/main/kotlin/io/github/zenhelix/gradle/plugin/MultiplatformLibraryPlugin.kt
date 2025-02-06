@@ -4,7 +4,6 @@ import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import io.github.zenhelix.gradle.convention.AndroidCompilationConventionPlugin
 import io.github.zenhelix.gradle.convention.AndroidConventionPlugin
-import io.github.zenhelix.gradle.convention.DesktopComposeConventionPlugin
 import io.github.zenhelix.gradle.convention.DistributionConventionPlugin
 import io.github.zenhelix.gradle.convention.Java21CompilationConventionPlugin
 import io.github.zenhelix.gradle.convention.JavaConventionPlugin
@@ -75,13 +74,11 @@ public class MultiplatformLibraryPlugin : Plugin<Project> {
                     publishLibraryVariants("release", "debug")
                 }
             }
-
-            pluginManager.apply(DesktopComposeConventionPlugin::class)
         }
 
         //see https://kotlinlang.org/docs/multiplatform-hierarchy.html#see-the-full-hierarchy-template
         target.extensions.configure<KotlinMultiplatformExtension> {
-            jvm("desktop")
+            jvm()
 
             androidTarget()
 

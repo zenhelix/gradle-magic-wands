@@ -26,8 +26,8 @@ pluginManagement {
         mavenLocal()
     }
     plugins {
-        id("io.github.zenhelix.maven-central-publish") version "0.4.0"
-        id("com.gradle.plugin-publish") version "1.3.0"
+        id("io.github.zenhelix.maven-central-publish") version "0.5.0"
+        id("com.gradle.plugin-publish") version "1.3.1"
     }
 }
 

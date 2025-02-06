@@ -61,7 +61,12 @@ public class SpringConventionPlugin : Plugin<Project> {
                 if (kotlinPluginInClasspath) {
                     tasks.withType<KotlinCompile> {
                         compilerOptions {
-                            freeCompilerArgs.add("-Xjsr305=strict")
+                            // Especially through the creation, because sometimes freeCompilerArgs can be null
+                            freeCompilerArgs.set(
+                                freeCompilerArgs.getOrElse(emptyList()).toMutableList().apply {
+                                    add("-Xjsr305=strict")
+                                }
+                            )
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package io.github.zenhelix.gradle.plugin
 
+import io.github.zenhelix.gradle.convention.DesktopComposeConventionPlugin
 import io.github.zenhelix.gradle.convention.KotlinMultiplatformComposeConventionPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -37,6 +38,9 @@ public class MultiplatformComposeAppPlugin : Plugin<Project> {
                     }
                 }
             }
+        }
+        target.afterEvaluate {
+            pluginManager.apply(DesktopComposeConventionPlugin::class)
         }
     }
 }

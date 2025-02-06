@@ -4,7 +4,6 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import io.github.zenhelix.gradle.convention.AndroidCompilationConventionPlugin
 import io.github.zenhelix.gradle.convention.AndroidConventionPlugin
-import io.github.zenhelix.gradle.convention.DesktopComposeConventionPlugin
 import io.github.zenhelix.gradle.convention.DistributionConventionPlugin
 import io.github.zenhelix.gradle.convention.Java21CompilationConventionPlugin
 import io.github.zenhelix.gradle.convention.JavaConventionPlugin
@@ -69,7 +68,7 @@ public class MultiplatformAppPlugin : Plugin<Project> {
 
         //see https://kotlinlang.org/docs/multiplatform-hierarchy.html#see-the-full-hierarchy-template
         target.extensions.configure<KotlinMultiplatformExtension> {
-            jvm("desktop")
+            jvm()
 
             androidTarget()
 
@@ -135,8 +134,6 @@ public class MultiplatformAppPlugin : Plugin<Project> {
                 }
 
             }
-
-            pluginManager.apply(DesktopComposeConventionPlugin::class)
         }
 
         target.extensions.configure<BaseAppModuleExtension> {

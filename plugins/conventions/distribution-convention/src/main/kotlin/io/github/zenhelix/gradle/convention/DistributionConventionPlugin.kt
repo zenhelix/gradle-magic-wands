@@ -7,12 +7,10 @@ import io.github.zenhelix.gradle.convention.utils.DistributionName
 import io.github.zenhelix.gradle.convention.utils.lowerCamelCaseName
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.bundling.Zip
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
-import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.compose.ComposeExtension
@@ -85,28 +83,30 @@ public class DistributionConventionPlugin : Plugin<Project> {
                                 throw IllegalStateException("Not supported ${binary.target.targetName}")
                             }
 
-                            val distributionTask = tasks.named<Copy>(lowerCamelCaseName(targetName, subTargetName, binaryName, DISTRIBUTION_TASK_NAME))
+                            val distributionTask = tasks.findByName(lowerCamelCaseName(targetName, subTargetName, binaryName, DISTRIBUTION_TASK_NAME))
 
-                            val zipTask = tasks.register<Zip>(lowerCamelCaseName("zip", targetName, subTargetName, binaryName, DISTRIBUTION_TASK_NAME)) {
-                                group = DISTRIBUTION_TASK_GROUP_NAME
+                            if (distributionTask != null) {
+                                val zipTask = tasks.register<Zip>(lowerCamelCaseName("zip", targetName, subTargetName, binaryName, DISTRIBUTION_TASK_NAME)) {
+                                    group = DISTRIBUTION_TASK_GROUP_NAME
 
-                                from(binary.distribution.outputDirectory)
-                                destinationDirectory.set(
-                                    layout.buildDirectory
-                                        .dir(distributionExtension.finalOutputDestination)
-                                        .map { it.dir("web") }
-                                )
-                                archiveFileName.set(
-                                    DistributionName.web(
-                                        moduleName = moduleName,
-                                        version = version,
-                                        flavour = binary.mode.toDistributionName(),
-                                        target = binary.target
+                                    from(binary.distribution.outputDirectory)
+                                    destinationDirectory.set(
+                                        layout.buildDirectory
+                                            .dir(distributionExtension.finalOutputDestination)
+                                            .map { it.dir("web") }
                                     )
-                                )
-                            }
+                                    archiveFileName.set(
+                                        DistributionName.web(
+                                            moduleName = moduleName,
+                                            version = version,
+                                            flavour = binary.mode.toDistributionName(),
+                                            target = binary.target
+                                        )
+                                    )
+                                }
 
-                            distributionTask.get().finalizedBy(zipTask)
+                                distributionTask.finalizedBy(zipTask)
+                            }
                         }
                 }
 

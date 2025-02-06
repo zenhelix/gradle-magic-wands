@@ -13,7 +13,12 @@ public class KotlinConventionPlugin : Plugin<Project> {
             if (kotlinPluginInClasspath) {
                 tasks.withType<KotlinCompile>().configureEach {
                     compilerOptions {
-                        freeCompilerArgs.add("-Xcontext-receivers")
+                        // Especially through the creation, because sometimes freeCompilerArgs can be null
+                        freeCompilerArgs.set(
+                            freeCompilerArgs.getOrElse(emptyList()).toMutableList().apply {
+                                add("-Xcontext-receivers")
+                            }
+                        )
                     }
                 }
             }
