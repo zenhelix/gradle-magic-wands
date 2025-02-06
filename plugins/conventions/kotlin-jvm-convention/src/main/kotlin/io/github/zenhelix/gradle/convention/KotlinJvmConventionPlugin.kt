@@ -41,7 +41,12 @@ public class KotlinJvmConventionPlugin : Plugin<Project> {
                 if (kotlinPluginInClasspath) {
                     tasks.withType<KotlinJvmCompile>().configureEach {
                         compilerOptions {
-                            freeCompilerArgs.add("-Xemit-jvm-type-annotations")
+                            // Especially through the creation, because sometimes freeCompilerArgs can be null
+                            freeCompilerArgs.set(
+                                freeCompilerArgs.getOrElse(emptyList()).toMutableList().apply {
+                                    add("-Xemit-jvm-type-annotations")
+                                }
+                            )
                         }
                     }
 

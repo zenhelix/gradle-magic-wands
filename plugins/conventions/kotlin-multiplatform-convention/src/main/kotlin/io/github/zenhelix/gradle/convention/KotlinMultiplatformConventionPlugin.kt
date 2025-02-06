@@ -21,7 +21,12 @@ public class KotlinMultiplatformConventionPlugin : Plugin<Project> {
                 extensions.configure<KotlinMultiplatformExtension> {
                     withSourcesJar()
                     compilerOptions {
-                        freeCompilerArgs.add("-Xexpect-actual-classes")
+                        // Especially through the creation, because sometimes freeCompilerArgs can be null
+                        freeCompilerArgs.set(
+                            freeCompilerArgs.getOrElse(emptyList()).toMutableList().apply {
+                                add("-Xexpect-actual-classes")
+                            }
+                        )
                     }
                 }
             }

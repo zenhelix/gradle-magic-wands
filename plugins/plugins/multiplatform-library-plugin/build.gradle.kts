@@ -36,5 +36,5 @@ dependencies {
 
     implementation(rootProject.projects.kotlinLibraryConvention)
 
-    implementation(rootProject.projects.distributionConvention)
+    api(rootProject.projects.distributionConvention)
 }

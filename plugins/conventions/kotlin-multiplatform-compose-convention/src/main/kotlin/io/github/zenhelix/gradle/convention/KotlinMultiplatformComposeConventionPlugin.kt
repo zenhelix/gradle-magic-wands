@@ -53,7 +53,7 @@ public class KotlinMultiplatformComposeConventionPlugin : Plugin<Project> {
                         }
                     }
 
-                    val desktopMainSourceName = "desktopMain"
+                    val desktopMainSourceName = "jvmMain" //FIXME rename jvm to desktop only for compose if it possible
                     val desktopMainSourceSetExists = sourceSets.findByName(desktopMainSourceName) != null
                     if (desktopMainSourceSetExists) {
                         sourceSets.getByName(desktopMainSourceName) {
@@ -65,7 +65,7 @@ public class KotlinMultiplatformComposeConventionPlugin : Plugin<Project> {
                         }
                     }
 
-                    val desktopTestSourceName = "desktopTest"
+                    val desktopTestSourceName = "jvmTest" //FIXME
                     val desktopTestSourceSetExists = sourceSets.findByName(desktopTestSourceName) != null
                     if (desktopTestSourceSetExists) {
                         sourceSets.getByName(desktopTestSourceName) {
