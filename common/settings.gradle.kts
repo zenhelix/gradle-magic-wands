@@ -27,4 +27,3 @@ pluginManagement {
 
 include("gradle-test-common")
 include("gradle-assertions")
-include("gradle-utils")

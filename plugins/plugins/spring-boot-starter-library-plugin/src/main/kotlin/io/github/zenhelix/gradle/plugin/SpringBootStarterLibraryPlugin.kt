@@ -1,8 +1,8 @@
 package io.github.zenhelix.gradle.plugin
 
-import io.github.zenhelix.gradle.hasDependency
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.plugins.JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME
 import org.gradle.kotlin.dsl.apply
 
@@ -26,5 +26,10 @@ public class SpringBootStarterLibraryPlugin : Plugin<Project> {
         }
 
     }
+
+    private fun Project.hasDependency(scope: String, group: String, module: String): Boolean =
+        configurations.findByName(scope)?.hasDependency(group = group, module = module) == true
+
+    private fun Configuration.hasDependency(group: String, module: String): Boolean = this.allDependencies.any { it.group == group && it.name == module }
 
 }
