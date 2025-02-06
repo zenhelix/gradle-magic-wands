@@ -12,7 +12,6 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation("io.github.zenhelix:gradle-utils")
     implementation(rootProject.projects.springLibraryPlugin)
     implementation(rootProject.projects.springConvention)
 }
