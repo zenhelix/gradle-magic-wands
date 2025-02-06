@@ -27,7 +27,7 @@ class GradleWrapperConventionPluginFunctionalTest {
         private lateinit var wrapperPropertiesFile: File
 
         private val propsMapper = JavaPropsMapper().registerModule(kotlinModule())
-        private const val CURRENT_GRADLE_VERSION = "8.12"
+        private const val CURRENT_GRADLE_VERSION = "8.12.1"
         private const val GRADLE_BASE_URL_PROPERTY_NAME: String = "org.gradle.internal.services.base.url"
     }
 
