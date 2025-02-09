@@ -52,7 +52,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
     versionCatalogs {
-        create("pluginsCatalog") {
+        create("zenhelixPlugins") {
             from("io.github.zenhelix:gradle-magic-wands-catalog:{versionPlaceholder}")
         }
     }
@@ -60,7 +60,7 @@ dependencyResolutionManagement {
 
 // build.gradle.kts
 plugins {
-    alias(pluginsCatalog.plugins.example.plugin)
+    alias(zenhelixPlugins.plugins.example.plugin)
 }
 ----
 

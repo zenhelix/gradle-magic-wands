@@ -4,7 +4,6 @@ import io.github.zenhelix.gradle.convention.KotlinJvmConventionPlugin
 import io.github.zenhelix.gradle.convention.KotlinLibraryConventionPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.kotlin.dsl.apply
 import org.jetbrains.kotlin.allopen.gradle.AllOpenGradleSubplugin
 import org.jetbrains.kotlin.gradle.internal.Kapt3GradleSubplugin
