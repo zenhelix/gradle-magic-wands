@@ -2,7 +2,6 @@ package io.github.zenhelix.gradle.convention
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.attributes.TestSuiteType
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.jvm.JvmTestSuite
 import org.gradle.kotlin.dsl.configure
@@ -10,7 +9,6 @@ import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.register
 import org.gradle.testing.base.TestingExtension
-import kotlin.also
 
 public class JvmTestSuiteConventionPlugin : Plugin<Project> {
 
@@ -30,12 +28,9 @@ public class JvmTestSuiteConventionPlugin : Plugin<Project> {
                         }
                     }
 
-                    val test = suites.getByName<JvmTestSuite>("test") {
-                        testType.set(TestSuiteType.UNIT_TEST)
-                    }
+                    val test = suites.getByName<JvmTestSuite>("test")
 
                     val functionalTest = suites.register<JvmTestSuite>("functionalTest") {
-                        testType.set(TestSuiteType.FUNCTIONAL_TEST)
                         configurations.named(sources.implementationConfigurationName) {
                             extendsFrom(configurations.getByName(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME))
                         }
@@ -47,7 +42,6 @@ public class JvmTestSuiteConventionPlugin : Plugin<Project> {
                         }
                     }
                     suites.register<JvmTestSuite>("integrationTest") {
-                        testType.set(TestSuiteType.INTEGRATION_TEST)
                         configurations.named(sources.implementationConfigurationName) {
                             extendsFrom(configurations.getByName(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME))
                         }
@@ -59,7 +53,6 @@ public class JvmTestSuiteConventionPlugin : Plugin<Project> {
                         }
                     }
                     suites.register<JvmTestSuite>("performanceTest") {
-                        testType.set(TestSuiteType.PERFORMANCE_TEST)
                         configurations.named(sources.implementationConfigurationName) {
                             extendsFrom(configurations.getByName(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME))
                         }
