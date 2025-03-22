@@ -67,7 +67,6 @@ configure(subprojects.filter { it.name != "aa_catalog" }) {
 
             val test by getting(JvmTestSuite::class)
             val functionalTest by registering(JvmTestSuite::class) {
-
                 dependencies {
                     implementation(project())
                     implementation(gradleTestKit())
