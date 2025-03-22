@@ -65,7 +65,7 @@ public class DistributionConventionPlugin : Plugin<Project> {
                     targets.withType<KotlinJsIrTarget>()
                         .flatMap { it.binaries }
                         .forEach { binary ->
-                            val moduleName = binary.target.moduleName ?: binary.compilation.compilationName
+                            val moduleName = binary.target.outputModuleName.getOrElse(binary.compilation.compilationName)
                             val targetName = binary.target.targetName
                             val binaryName =
                                 if (binary.mode == KotlinJsBinaryMode.PRODUCTION && binary.compilation.name == KotlinCompilation.MAIN_COMPILATION_NAME) {

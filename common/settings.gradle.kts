@@ -10,10 +10,10 @@ dependencyResolutionManagement {
         mavenLocal()
     }
 
-    val pluginDevVersion: String by settings
+    val pluginsDevPlatformVersion: String by settings
     versionCatalogs {
         create("pluginsDevPlatform") {
-            from("io.github.zenhelix:gradle-plugins-dev-toml:$pluginDevVersion")
+            from("io.github.zenhelix:gradle-plugins-dev-toml:$pluginsDevPlatformVersion")
         }
     }
 }
