@@ -1,0 +1,75 @@
+{
+  "categories": [
+    {
+      "title": "## Breaking Changes",
+      "labels": ["breaking-change"]
+    },
+    {
+      "title": "## New Features",
+      "labels": ["feature", "enhancement", "feat"]
+    },
+    {
+      "title": "## Bug Fixes",
+      "labels": ["bug", "fix"]
+    },
+    {
+      "title": "## Build & CI",
+      "labels": ["build", "ci"]
+    },
+    {
+      "title": "## Documentation",
+      "labels": ["documentation", "docs"]
+    },
+    {
+      "title": "## Dependencies",
+      "labels": ["dependencies"]
+    },
+    {
+      "title": "## Performance",
+      "labels": ["perf", "performance"]
+    },
+    {
+      "title": "## Refactoring",
+      "labels": ["refactor"]
+    },
+    {
+      "title": "## Tests",
+      "labels": ["test", "tests"]
+    },
+    {
+      "title": "## Other Changes",
+      "labels": []
+    }
+  ],
+  "ignore_labels": ["ignore-changelog"],
+  "sort": {
+    "order": "ASC",
+    "on_property": "mergedAt"
+  },
+  "template": "#{{CHANGELOG}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}",
+  "pr_template": "- #{{TITLE}} (#{{NUMBER}}) @#{{AUTHOR}}",
+  "empty_template": "No changes.",
+  "label_extractor": [
+    {
+      "pattern": "^(build|ci|docs|feat|fix|perf|refactor|style|test)(\\(.*\\))?!?:",
+      "target": "$1",
+      "on_property": "title",
+      "method": "match",
+      "flags": "i"
+    }
+  ],
+  "transformers": [
+    {
+      "pattern": "^(build|ci|docs|feat|fix|perf|refactor|style|test)(\\(.*\\))?!?:\\s*",
+      "target": ""
+    }
+  ],
+  "max_tags_to_fetch": 200,
+  "max_pull_requests": 200,
+  "max_back_track_time_days": 365,
+  "exclude_merge_branches": [],
+  "tag_resolver": {
+    "method": "semver"
+  },
+  "base_branches": ["main"]
+}
