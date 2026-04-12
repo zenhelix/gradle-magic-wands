@@ -5,10 +5,10 @@ on:
 
 jobs:
   check:
-    uses: zenhelix/ci-workflows/.github/workflows/gradle-check.yml@v1
+    uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v2
     with:
       java-version: '17'
       gradle-command: './gradlew :plugins:check'
 
   label:
-    uses: zenhelix/ci-workflows/.github/workflows/labeler.yml@v1
+    uses: zenhelix/ci-workflows/.github/workflows/labeler.yml@v2
