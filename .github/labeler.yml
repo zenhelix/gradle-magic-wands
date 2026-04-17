@@ -1,0 +1,47 @@
+# Default labeler configuration for zenhelix projects
+# Override per-repo by creating .github/labeler.yml in the project
+
+# Source code
+source:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/main/**/*.kt'
+          - 'src/main/**/*.java'
+
+# Test changes
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/test/**/*'
+          - 'src/functionalTest/**/*'
+
+# Build configuration
+build:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'build.gradle.kts'
+          - 'settings.gradle.kts'
+          - 'gradle.properties'
+          - 'gradle/**/*'
+
+# CI/CD changes
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**/*'
+
+# Documentation
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - '*.adoc'
+          - 'docs/**/*'
+          - 'LICENSE'
+
+# Dependencies
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'build.gradle.kts'
+          - 'gradle/libs.versions.toml'
