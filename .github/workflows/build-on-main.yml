@@ -6,16 +6,14 @@ on:
 
 jobs:
   check:
-    uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v2
+    uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v3
     with:
       java-version: '17'
       gradle-command: './gradlew :plugins:check'
 
   create-tag:
     needs: check
-    uses: zenhelix/ci-workflows/.github/workflows/gradle-create-tag.yml@v2
+    uses: zenhelix/ci-workflows/.github/workflows/gradle-create-tag.yml@v3
     with:
       java-version: '17'
-    secrets:
-      app-id: ${{ secrets.ZENHELIX_COMMITER_APP_ID }}
-      app-private-key: ${{ secrets.ZENHELIX_COMMITER_APP_PRIVATE_KEY }}
+    secrets: inherit

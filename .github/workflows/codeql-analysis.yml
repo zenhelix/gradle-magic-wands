@@ -10,4 +10,4 @@ on:
 
 jobs:
   analyze:
-    uses: zenhelix/ci-workflows/.github/workflows/codeql-analysis.yml@v2
+    uses: zenhelix/ci-workflows/.github/workflows/codeql-analysis.yml@v3
