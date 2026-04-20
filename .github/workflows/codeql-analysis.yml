@@ -8,6 +8,11 @@ on:
   schedule:
     - cron: '0 6 * * 1'
 
+permissions:
+  security-events: write
+  contents: read
+  actions: read
+
 jobs:
   analyze:
     uses: zenhelix/ci-workflows/.github/workflows/codeql-analysis.yml@v4

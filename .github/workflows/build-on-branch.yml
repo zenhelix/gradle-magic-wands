@@ -3,6 +3,10 @@ name: 'Build'
 on:
   pull_request: {}
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   check:
     uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v4
