@@ -4,6 +4,9 @@ on:
   push:
     tags: ['*']
 
+permissions:
+  contents: write
+
 jobs:
   release:
     uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-release.yml@v4

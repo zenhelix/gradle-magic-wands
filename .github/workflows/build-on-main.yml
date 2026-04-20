@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   check:
     uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v4
