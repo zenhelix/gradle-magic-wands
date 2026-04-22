@@ -1,0 +1,4 @@
+# Default code owners for all repositories in the zenhelix organization.
+# Individual repos can override with their own CODEOWNERS file.
+
+* @zenhelix/maintainers
