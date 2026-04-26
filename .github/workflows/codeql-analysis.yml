@@ -15,4 +15,4 @@ permissions:
 
 jobs:
   analyze:
-    uses: zenhelix/ci-workflows/.github/workflows/codeql-analysis.yml@v4
+    uses: zenhelix/ci-workflows/.github/workflows/codeql-analysis.yml@v5
