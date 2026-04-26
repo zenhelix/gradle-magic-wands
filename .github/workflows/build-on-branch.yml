@@ -9,10 +9,10 @@ permissions:
 
 jobs:
   check:
-    uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v4
+    uses: zenhelix/ci-workflows/.github/workflows/gradle-plugin-check.yml@v5
     with:
       java-version: '17'
       gradle-command: './gradlew :plugins:check'
 
   label:
-    uses: zenhelix/ci-workflows/.github/workflows/labeler.yml@v4
+    uses: zenhelix/ci-workflows/.github/workflows/labeler.yml@v5
